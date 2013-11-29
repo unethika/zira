@@ -32,8 +32,8 @@
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
  * @link       http://openmetaverse.googlecode.com/
  */
-require_once(BASEPATH . 'common/Curl.php');
-require_once(BASEPATH . 'common/ALT.php');
+require_once(COMMONPATH . 'Curl.php');
+require_once(COMMONPATH . 'ALT.php');
 
 function update_appearance($userID, $appearance)
 {
@@ -85,7 +85,7 @@ function update_attachments($userID, $attachments)
         log_message('error', "Update attachments call to $url failed");
 	    $response = array('Message' => 'Invalid or missing response');
     }
-	
+    
     return $response;
 }
 
@@ -107,36 +107,36 @@ class AddInventory implements IGridService
         $this->Inventory = new ALT($db);
         $this->Name = 'My Inventory';
         
-    	$avtype = "DefaultAvatar";
-    	if (isset($params["AvatarType"]))
-    	    $avtype = $params["AvatarType"];
+        $avtype = "DefaultAvatar";
+        if (isset($params["AvatarType"]))
+            $avtype = $params["AvatarType"];
         
-    	log_message('info', "Creating avatar inventory with type $avtype");
+        log_message('info', "Creating avatar inventory with type $avtype");
         
-    	try
-	    {
-    	    $avtypehandler = AvatarInventoryFolderFactory::Create($avtype, $this->Name, $this->UserID);
-    	}
-    	catch (Exception $ex)
-    	{
-    	    log_message('error', sprintf("Error occurred in avcreation %s", $ex));
-    	    header("Content-Type: application/json", true);
-    	    echo '{ "Message": "Failed loading avatar template "' . $avtype . ': ' . $ex->getMessage() . ' }';
-    	    exit();
-    	}
+        try
+        {
+            $avtypehandler = AvatarInventoryFolderFactory::Create($avtype, $this->Name, $this->UserID);
+        }
+        catch (Exception $ex)
+        {
+            log_message('error', sprintf("Error occurred in avcreation %s", $ex));
+            header("Content-Type: application/json", true);
+            echo '{ "Message": "Failed loading avatar template "' . $avtype . ': ' . $ex->getMessage() . ' }';
+            exit();
+        }
     
-    	if (!$avtypehandler)
-    	{
-    	    // Handle error and return
-    	    log_message('error', "Failed to create handler for avatar with type $avtype");
+        if (!$avtypehandler)
+        {
+            // Handle error and return
+            log_message('error', "Failed to create handler for avatar with type $avtype");
             
             header("Content-Type: application/json", true);
             echo '{ "Message": "Invalid parameters" }';
             exit();
-    	}
-    	
-    	$skeleton = $avtypehandler->Folders();
-    	$items = $avtypehandler->Items();
+        }
+        
+        $skeleton = $avtypehandler->Folders();
+        $items = $avtypehandler->Items();
         
         $db->beginTransaction();
         
@@ -238,10 +238,10 @@ class AddInventory implements IGridService
         //    }
         //}
 
-    	// Add any additional customizations
+        // Add any additional customizations
         $avtypehandler->Configure();
 
-    	// And return success
+        // And return success
         header("Content-Type: application/json", true);
         echo sprintf('{"Success": true, "FolderID": "%s"}', $this->UserID);
         exit();
