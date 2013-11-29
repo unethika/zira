@@ -34,17 +34,19 @@
  * @link       http://openmetaverse.googlecode.com/
  */
 
+define('COMMONPATH', str_replace("\\", "/", realpath(dirname(__FILE__) . '/..') . '/GridCommon/'));
 define('BASEPATH', str_replace("\\", "/", realpath(dirname(__FILE__)) . '/'));
 
-require_once(BASEPATH . 'common/Config.php');
-require_once(BASEPATH . 'common/Errors.php');
-require_once(BASEPATH . 'common/Log.php');
-require_once(BASEPATH . 'common/Database.php');
-require_once(BASEPATH . 'common/Interfaces.php');
-require_once(BASEPATH . 'common/Factory.php');
-require_once(BASEPATH . 'common/UUID.php');
-require_once(BASEPATH . 'common/Vector3.php');
-require_once(BASEPATH . 'common/Curl.php');
+require_once(COMMONPATH . 'Config.php');
+require_once(COMMONPATH . 'Errors.php');
+require_once(COMMONPATH . 'Log.php');
+require_once(COMMONPATH . 'Database.php');
+require_once(COMMONPATH . 'Interfaces.php');
+require_once(COMMONPATH . 'Factory.php');
+require_once(COMMONPATH . 'UUID.php');
+require_once(COMMONPATH . 'Vector3.php');
+require_once(COMMONPATH . 'Curl.php');
+
 
 $config =& get_config();
 
